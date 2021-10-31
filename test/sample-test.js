@@ -2,18 +2,18 @@ const { expect } = require("chai");
 const { ethers } = require("hardhat");
 const { isTargetLikeServerless } = require("next/dist/server/config");
 
-describe("Greeter", function () {
-  it("Should created and execute Market sales", async function () {
+describe("NFTMarket", function () {
+  it("Should create and execute Market sales", async function () {
     const Market = await ethers.getContractFactory("NFTMarket")
     const market = await Market.deploy()
     await market.deployed()
-    const marketAddress = market.marketAddress
+    const marketAddress = market.address
     
 
     const NFT = await ethers.getContractFactory("NFT")
     const nft = await NFT.deploy(marketAddress)
-    await NFT.deployed();
-    const ndtContractAddress = nft.address;
+    await nft.deployed();
+    const nftContractAddress = nft.address;
 
     let listingPrice = await market.getListingPrice();
     listingPrice = listingPrice.toString()
@@ -28,6 +28,10 @@ describe("Greeter", function () {
 
     const [_, buyerAddress] = await ethers.getSigners()
 
-    await market.connect(buyerAddress).createMarketSale(nftContractAddress, 1,{value: auctionPrice});
+    await market.connect(buyerAddress).createMarketSale(nftContractAddress, 1, {value: auctionPrice});
+
+    const items = await market.fetchMarketItems()
+
+    console.log('items: ', items)
   })
 });
