@@ -13,7 +13,7 @@ function Marketplace({ Component, pageProps }) {
             Home
           </a>
         </Link>
-        <Link href="/Create-item">
+        <Link href="/create-item">
           <a className="mr-6 text-pink-500">
             Sell digital Artist
           </a>
